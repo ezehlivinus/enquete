@@ -1,0 +1,34 @@
+
+user-table
+- id
+- name
+- email
+- password
+
+polls-table
+- id
+- name
+- description
+- creator references user.id the user created the poll
+
+poll_questions
+- id
+- poll_id
+- content
+
+
+poll_question_options:
+- id
+- poll_question_id
+- content
+- description
+- count
+
+// keeps the votes
+answers
+- id
+- user_id REFERENCES user.id
+- poll_question_id REFERENCES poll_question.id notes the question that was voted on
+- poll_question_options_id REFERENCES poll_question_options.id 
+- ip_address - for unregistered users
+
