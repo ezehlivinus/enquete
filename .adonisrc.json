@@ -24,10 +24,13 @@
     "@adonisjs/lucid",
     "@adonisjs/auth"
   ],
+  "directories": {
+    "public": "./public/assets"
+  },
   "metaFiles": [
     ".env",
     ".adonisrc.json",
     "resources/views/**/*.edge",
-    "public/**"
+    "public/assets/**"
   ]
 }

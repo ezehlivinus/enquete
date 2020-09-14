@@ -20,4 +20,9 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.on('/').render('welcome')
+Route.on('/').render('layouts.base')
+
+
+// Route.get('register', 'AuthController.showForm')
+// Route.post('register', 'AuthController.register')
+
