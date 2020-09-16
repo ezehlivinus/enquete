@@ -24,11 +24,15 @@
     "@adonisjs/fold": "^6.4.0",
     "@adonisjs/lucid": "^8.4.2",
     "@adonisjs/session": "^3.1.2",
+    "@adonisjs/shield": "^3.0.8",
     "@adonisjs/view": "^2.0.9",
     "luxon": "^1.25.0",
     "mysql": "^2.18.1",
+    "pg": "^8.3.3",
+    "phc-argon2": "^1.0.10",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "sqlite3": "^5.0.0"
   }
 }
