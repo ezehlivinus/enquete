@@ -25,14 +25,15 @@ export default class PollsController {
       schema: pollSchema,
     })
 
-    const poll = await Poll.create(data)
+    await Poll.create(data)
 
     return response.redirect().toRoute('polls.index')
   }
 
   //   show the form for editing a poll
-  public async edit () {
-
+  public async edit ({ view, request, response, params }: HttpContextContract) {
+    const poll = await Poll.findByOrFail('id', params.id)
+    return view.render('polls/edit', { poll })
   }
 
   //   show a single poll
@@ -42,8 +43,22 @@ export default class PollsController {
   }
 
   //   update/modify a poll
-  public async update () {
+  public async update ({ view, request, response, params }: HttpContextContract) {
+    const pollSchema = schema.create({
+      title: schema.string({trim: true}),
+    })
 
+    const data = await request.validate({
+      schema: pollSchema,
+    })
+
+    let poll = await Poll.findByOrFail('id', params.id)
+
+    poll.title = data.title
+
+    poll = await poll.save()
+
+    return response.redirect().toRoute('polls.show', {id: poll.id})
   }
 
   //   delete/destroy a poll

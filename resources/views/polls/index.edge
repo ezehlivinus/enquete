@@ -5,12 +5,18 @@
 <br>
 <br>
 
-<h5>Polls</h5>
-
-<div class="collection">
-    @each(poll in polls) 
-        <a href="{{ route('polls.show', {id: poll.id}) }}" class="collection-item">{{ poll.title }}</a>
-    @endeach
-  </div>
+<div class="card"  style="">
+    <div class="card-body">
+        <h5 class="card-title">Poll list</h5>
+        <p class="card-text">
+        <div class="list-group list-group-flush">
+            @each(poll in polls) 
+                <a href="{{ route('polls.show', {id: poll.id}) }}" class="list-group-item list-group-item-action">{{ poll.title }}</a>
+            @endeach
+        </div>
+        </p>
+    </div>
+</div>
 
 @endsection
+
