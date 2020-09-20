@@ -1,0 +1,33 @@
+@layout('layouts/base')
+
+@section('content')
+<br>
+<br>
+<br>
+
+<div class="row">
+    <div class="card">
+        <div class="card-content" style="background-color:lightgrey">
+            <span class="card-title">
+                <p style="font-weight: bolder;">{{ poll.title }}</p>
+                <p>
+                    Description if any
+                </p>
+                
+                <a class="" href="http://">view</a> <a href="#"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
+            </span>
+        </div>
+        
+        <div class="card-content">
+            <span class="card-title">
+                <p>Questions</p>
+    
+            </span>
+          <p>
+              Add
+          </p>
+        </div>
+      </div>
+</div>
+
+@endsection

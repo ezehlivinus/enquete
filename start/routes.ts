@@ -22,7 +22,22 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.on('/').render('welcome')
 
-
 Route.get('register', 'AuthController.showForm').as('register-form')
 Route.post('register', 'AuthController.register').as('register')
+Route.post('logout', 'AuthController.logout').as('logout')
+Route.get('login', 'AuthController.loginForm').as('login-form')
+Route.post('login', 'AuthController.login').as('login')
+
+// Polls route group
+Route
+  .group(() => {
+    Route.get('/', 'PollsController.index').as('polls.index')
+    Route.get('/create', 'PollsController.create').as('polls.create')
+    Route.post('/polls', 'PollsController.store').as('polls.store')
+    Route.get('/:id/edit', 'PollsController.edit').as('polls.edit')
+    Route.put('/:id', 'PollsController.update').as('polls.update')
+    Route.delete('/:id', 'PollsController.delete').as('polls.delete')
+    Route.get('/:id', 'PollsController.show').as('polls.show')
+  })
+  .prefix('polls')
 

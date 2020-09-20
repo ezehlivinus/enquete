@@ -1,0 +1,43 @@
+@layout('layouts/base')
+
+@section('content')
+<br>
+<br>
+<br>
+
+<div class="row">
+
+    
+
+<form action="{{ route('login') }}" method="POST" class="col s12 m6 push-m3">
+        @if(flashMessages.has('notification'))
+            <div style="color: red">
+                {{ flashMessages.get('notification') }}
+            </div>
+        @endif
+        
+      {{ csrfField() }}
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input name="email" id="email" type="email" value="{{ flashMessages.get('email') || '' }}" class="validate">
+          <label for="email">Email</label>
+          <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input name="password" id="password" type="password" class="validate">
+          <label for="password">Password</label>
+          <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>
+
+        </div>
+      </div>
+
+      <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+      
+    </form>
+    
+  </div>
+@endsection

@@ -1,0 +1,28 @@
+@layout('layouts/base')
+
+@section('content')
+<br>
+<br>
+<br>
+
+<div class="row">
+
+<form action="{{ route('polls.store') }}" method="POST" class="col s12 m6 push-m3">
+    <h5>Create a poll</h5>
+
+      {{ csrfField() }}
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Poll title" name="title" id="title" type="text" class="validate">
+          {{--  <label for="title">Poll title</label>  --}}
+          <p>{{ flashMessages.get('errors.title') || '' }}</p>
+        </div>
+      </div>
+
+      <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+      
+    </form>
+    
+  </div>
+@endsection

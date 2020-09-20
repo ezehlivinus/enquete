@@ -1,0 +1,16 @@
+@layout('layouts/base')
+
+@section('content')
+<br>
+<br>
+<br>
+
+<h5>Polls</h5>
+
+<div class="collection">
+    @each(poll in polls) 
+        <a href="{{ route('polls.show', {id: poll.id}) }}" class="collection-item">{{ poll.title }}</a>
+    @endeach
+  </div>
+
+@endsection
