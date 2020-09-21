@@ -38,6 +38,19 @@ Route
     Route.post('/:id/update', 'PollsController.update').as('polls.update')
     Route.post('/:id/delete', 'PollsController.delete').as('polls.delete')
     Route.get('/:id', 'PollsController.show').as('polls.show')
+
+    // PollQuestion
+    Route
+      .group(() => {
+        Route.get('/', 'PollQuestionsController.index').as('questions.index')
+        Route.get('/create', 'PollQuestionsController.create').as('questions.create')
+        Route.post('/polls', 'PollQuestionsController.store').as('questions.store')
+        Route.get('/:id/edit', 'PollQuestionsController.edit').as('questions.edit')
+        Route.post('/:id/update', 'PollQuestionsController.update').as('questions.update')
+        Route.post('/:id/delete', 'PollQuestionsController.delete').as('questions.delete')
+        Route.get('/:id', 'PollQuestionsController.show').as('questions.show')
+      })
+      .prefix('/:pollId/questions')
   })
-  .prefix('polls')
+  .prefix('/polls')
 

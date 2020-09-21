@@ -21,11 +21,24 @@
             </div>
           </div>
 
-          <div class="card border-dark mb-3" style="">
-            <div class="card-header">Questions</div>
+          <div class="card border-dark mb-3" style=""><button type="button" class="btn btn-outline-secondary">Secondary</button>
+            <div class="card-header">Questions | <button type="button" class="btn btn-light">Add Question</button></div>
             <div class="card-body text-dark">
-              <h5 class="card-title">Dark card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              {{--  <h5 class="card-title">Dark card title</h5>  --}}
+              {{--  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>  --}}
+            
+              <div class="card border-success mb-3" style="">
+                <div class="card-header bg-transparent border-success">Header</div>
+                <div class="card-body text-success">
+                  <h5 class="card-title">Success card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+            <a class="" href="http://">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
+
+                </div>
+              </div>
+
             </div>
           </div>
         

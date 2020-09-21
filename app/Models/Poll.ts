@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import PollQuestion from 'App/Models/PollQuestion'
 
 export default class Poll extends BaseModel {
   @column({ isPrimary: true })
@@ -13,4 +14,8 @@ export default class Poll extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  // relationship
+  @hasMany(() => PollQuestion)
+  public questions: HasMany<typeof PollQuestion>
 }
