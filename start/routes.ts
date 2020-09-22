@@ -53,6 +53,3 @@ Route
       .prefix('/:pollId/questions')
   })
   .prefix('/polls')
-
-
-  
