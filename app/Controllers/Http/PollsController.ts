@@ -39,7 +39,9 @@ export default class PollsController {
   //   show a single poll
   public async show ({ view, request, response, params }: HttpContextContract) {
     const poll = await Poll.findByOrFail('id', params.id)
-    return view.render('polls/show', { poll })
+    const title = poll.title
+
+    return view.render('polls/show', { poll, title })
   }
 
   //   update/modify a poll

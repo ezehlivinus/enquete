@@ -21,25 +21,58 @@
             </div>
           </div>
 
-          <div class="card border-dark mb-3" style=""><button type="button" class="btn btn-outline-secondary">Secondary</button>
-            <div class="card-header">Questions | <button type="button" class="btn btn-light">Add Question</button></div>
+          <div class="card border-dark mb-3" style="">
+            <div class="card-header">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                v-on:click="addNewQuestionForm">
+                Add new question
+              </button>
+            </div>
+            <!-- card body text-dark -->
             <div class="card-body text-dark">
               {{--  <h5 class="card-title">Dark card title</h5>  --}}
               {{--  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>  --}}
             
-              <div class="card border-success mb-3" style="">
-                <div class="card-header bg-transparent border-success">Header</div>
-                <div class="card-body text-success">
-                  <h5 class="card-title">Success card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <div class="card-footer bg-transparent border-success">
-            <a class="" href="http://">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
+              {{--  question template  --}}
+              <form v-for="(question, qIndex) in questions" :key="qIndex">
+                <div class="card border-success mb-3" style="">
+                {{--  <div class="card-header bg-transparent border-success">Header ${ name }</div>  --}}
+                  <div class="card-body text-success">
+                    {{--  <h5 class="card-title">Success card title</h5>  --}}
+                    <p class="card-text">
+                      {{ csrfField() }}
 
-                </div>
-              </div>
+                      <div class="input-group mb-3">
+                          {{--  <span class="input-group-text" id="inputGroup-sizing-default">Title</span>  --}}
+                          <input placeholder="Enter the question" type="text" v-model="question.name" name="content" class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
+                          <div id="titleHelpBlock" class="form-text"></div>
+                          <small>{{ flashMessages.get('errors.content') || '' }}</small>
+                      </div>
 
+                      <div v-for="(option, oIndex) in question.options" :key="oIndex"  class="input-group">
+                        <div class="input-group-text">
+                          <input class="form-check-input" autofocus type="radio" disabled value="" aria-label="Radio button for following text input">
+                        </div>
+                        <input type="text" class="form-control" placeholder="Option" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button v-on:click.prevent="deleteQuestionOption(qIndex, oIndex)" class="btn btn-outline-danger" type="button" id="button-addon2">X</button>
+                      </div>
+                      <a v-on:click.prevent="addNewQuestionOption(qIndex)" style="float: right" href="!#"> <i class="material-icons">add</i></a> 
+                  
+                    </p>
+                  </div>
+                  <div class="card-footer bg-transparent border-success">
+                    <button type="submit" class="btn btn-primary btn-sm">submit</button>
+                  {{--  <a class="" href="http://">view</a>   --}}
+                  <a v-on:click="deleteQuestionForm(question.id, $event)" style="float: right" href="!#"> <i class="material-icons">delete</i></a> 
+                  {{--  <a href="#"> analytics</a>  --}}
+                  </div>
+                </div>
+              </form>
+              {{--  end question template  --}}
             </div>
+            <!-- card body text-dark ends -->
           </div>
         
       </div>
@@ -48,5 +81,60 @@
 
 </div>
 
+@endsection
 
+@section('extra-script')
+
+  <script>
+
+    // this does not
+const app = Vue.createApp({
+  delimiters: ['${', '}'],
+  data () {
+    return {
+      name: '',
+      questions: [
+        { content: '', options: ['option'] },
+        { content: '', options: ['option'] },
+      ]
+
+    }
+  },
+
+  methods: {
+    addNewQuestionForm() {
+      this.questions.push({
+        content: '',
+        options: [
+          'option'
+        ]
+      })
+    },
+
+    deleteQuestionForm(index, event) {
+      event.preventDefault();
+      this.questions.splice(index, 1);
+      // later deleting the question in db will be done
+    },
+
+    addNewQuestionOption(questionIndex) {
+      this.questions[questionIndex].options.push('newOption')
+    },
+
+    deleteQuestionOption(questionIndex, optionIndex) {
+      // bracket noation didnt work: this.questions[questionIndex][options]
+      this.questions[questionIndex].options.splice(optionIndex, 1)
+    }
+
+  },
+
+  mounted() {
+    // conthis.questions;
+  }
+});
+
+app.mount('.container')
+
+  </script>
+  
 @endsection

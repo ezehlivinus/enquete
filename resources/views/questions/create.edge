@@ -1,1 +1,110 @@
-hello
+{{ csrfField() }}
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+    <input type="text" name="title" class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
+    <div id="titleHelpBlock" class="form-text">
+        
+    </div>
+
+    <small>{{ flashMessages.get('errors.title') || '' }}</small>
+    
+</div>
+
+@layout('layouts/base')
+
+@section('content')
+<br>
+<br>
+<br>
+
+
+
+<div class="row">
+    <div class="col-md-1"></div>
+      <div class="col-md-10">
+
+        <div class="card  bg-light mb-3" style="">
+            {{--  <div class="card-header">Header</div>  --}}
+            <div class="card-body">
+              <h5 class="card-title">{{ poll.title }}</h5>
+              <p class="card-text">Description if any</p>
+            <a class="" href="http://">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
+
+            </div>
+          </div>
+
+          <div class="card border-dark mb-3" style="">
+            <div class="card-header">
+              <button type="button" class="btn btn-primary btn-sm">New Question</button>
+            </div>
+            <div class="card-body text-dark">
+              {{--  <h5 class="card-title">Dark card title</h5>  --}}
+              {{--  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>  --}}
+            
+              <div class="card border-success mb-3" style="">
+              {{--  <div class="card-header bg-transparent border-success">Header ${ name }</div>  --}}
+                <div class="card-body text-success">
+                  {{--  <h5 class="card-title">Success card title</h5>  --}}
+                  <p class="card-text">
+                    {{ csrfField() }}
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                        <input type="text" name="title" class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
+                        <div id="titleHelpBlock" class="form-text">
+                            
+                        </div>
+
+                        <small>{{ flashMessages.get('errors.title') || '' }}</small>
+                        
+                    </div>
+                  </p>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+            <a class="" href="http://">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">delete</i></a> <a href="#"> analytics</a>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        
+      </div>
+      
+      <div class="col-md-1"></div>
+
+</div>
+
+@endsection
+
+@section('extra-script')
+
+  <script>
+
+    // this does not
+const app = Vue.createApp({
+  delimiters: ['${', '}'],
+  data () {
+    return {
+      name: 'Ezeh Livinus'
+
+    }
+  },
+
+  methods: {
+    print() {
+      console.log(this.name)
+    }
+  },
+
+  mounted() {
+    this.print()
+  }
+});
+
+app.mount('.container')
+
+  </script>
+  
+@endsection

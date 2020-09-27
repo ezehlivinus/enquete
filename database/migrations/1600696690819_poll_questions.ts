@@ -6,7 +6,7 @@ export default class PollQuestions extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('title')
+      table.string('content')
       table.integer('pollId')
         .unsigned()
         .notNullable()
