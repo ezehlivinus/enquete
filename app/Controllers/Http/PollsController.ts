@@ -41,7 +41,10 @@ export default class PollsController {
     const poll = await Poll.findByOrFail('id', params.id)
     const title = poll.title
 
-    return view.render('polls/show', { poll, title })
+    await poll.preload('questions')
+    const questions = poll.questions
+
+    return view.render('polls/show', { poll, title, questions })
   }
 
   //   update/modify a poll

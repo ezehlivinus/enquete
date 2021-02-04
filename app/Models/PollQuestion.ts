@@ -7,7 +7,7 @@ export default class PollQuestion extends BaseModel {
   public id: number
 
   @column()
-  public title: string
+  public content: string
 
   @column()
   public pollId: number

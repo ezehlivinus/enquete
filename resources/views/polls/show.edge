@@ -16,64 +16,126 @@
             <div class="card-body">
               <h5 class="card-title">{{ poll.title }}</h5>
               <p class="card-text">Description if any</p>
-            <a class="" href="http://">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
+            <a class="" href="#new-question">view</a> <a href="{{ route('polls.edit', {id: poll.id}) }}"> <i class="material-icons">edit</i></a> <a href="#"> analytics</a>
 
             </div>
           </div>
 
-          <div class="card border-dark mb-3" style="">
+          {{--  question container  --}}
+          <div  class="card border-dark mb-3" style="">
             <div class="card-header">
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                v-on:click="addNewQuestionForm">
-                Add new question
-              </button>
+              {{--  <a href="#new-question" class="btn btn-primary btn-sm">Add new question</a>  --}}
+              <span>Add new question</span>
             </div>
             <!-- card body text-dark -->
             <div class="card-body text-dark">
               {{--  <h5 class="card-title">Dark card title</h5>  --}}
               {{--  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>  --}}
-            
+              @if(flashMessages.has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessages.get('success') }}
+                </div>
+              @endif
+
               {{--  question template  --}}
-              <form v-for="(question, qIndex) in questions" :key="qIndex">
-                <div class="card border-success mb-3" style="">
+
+              <form  id="new-question" method="POST" action="{{ route('questions.store', {poll_id: poll.id})}}">
+                <div class="card border-secondary  mb-3" style="">
                 {{--  <div class="card-header bg-transparent border-success">Header ${ name }</div>  --}}
-                  <div class="card-body text-success">
+                  <div class="card-body text-secondary">
+                    
                     {{--  <h5 class="card-title">Success card title</h5>  --}}
                     <p class="card-text">
                       {{ csrfField() }}
 
                       <div class="input-group mb-3">
                           {{--  <span class="input-group-text" id="inputGroup-sizing-default">Title</span>  --}}
-                          <input placeholder="Enter the question" type="text" v-model="question.name" name="content" class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
+                          <input placeholder="Type a question" type="text" name="content" class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
                           <div id="titleHelpBlock" class="form-text"></div>
                           <small>{{ flashMessages.get('errors.content') || '' }}</small>
                       </div>
-
-                      <div v-for="(option, oIndex) in question.options" :key="oIndex"  class="input-group">
+                      {{--  question-options  --}}
+                      <div v-for="(option, optionIndex) in newOptions" :key="optionIndex"  class="input-group" style="padding-bottom: 5px;">
                         <div class="input-group-text">
                           <input class="form-check-input" autofocus type="radio" disabled value="" aria-label="Radio button for following text input">
                         </div>
-                        <input type="text" class="form-control" placeholder="Option" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button v-on:click.prevent="deleteQuestionOption(qIndex, oIndex)" class="btn btn-outline-danger" type="button" id="button-addon2">X</button>
+                        <input required type="text" class="form-control" placeholder="Option" v-model="newOptions[optionIndex]" name="options[]" aria-label="question's option" aria-describedby="button-addon2">
+                        <button v-on:click.prevent="deleteOption(optionIndex)" class="btn btn-outline-danger" type="button" id="button-addon2">X</button>
                       </div>
-                      <a v-on:click.prevent="addNewQuestionOption(qIndex)" style="float: right" href="!#"> <i class="material-icons">add</i></a> 
-                  
+                      <a v-on:click.prevent="addNewOption(optionIndex)" style="float: right" href="!#"> <i class="material-icons">add</i></a> 
+                      {{-- end-question-options  --}}
+                      
                     </p>
                   </div>
-                  <div class="card-footer bg-transparent border-success">
+                  <div class="card-footer bg-transparent border-secondary ">
                     <button type="submit" class="btn btn-primary btn-sm">submit</button>
                   {{--  <a class="" href="http://">view</a>   --}}
-                  <a v-on:click="deleteQuestionForm(question.id, $event)" style="float: right" href="!#"> <i class="material-icons">delete</i></a> 
+                  <a v-on:click="deleteQuestionForm(questionIndex, $event)" style="float: right" href="questions/"> <i class="material-icons">delete</i></a> 
                   {{--  <a href="#"> analytics</a>  --}}
                   </div>
                 </div>
               </form>
+
+
+                <hr>
+                  Update old questions
+                <hr>
+              <span v-for="(question, questionIndex) in questions"  :key="questionIndex">
+                ${}
+              <form  method="POST" :action="updateUrl">
+                <div class="card border-success mb-3" style="">
+                {{--  <div class="card-header bg-transparent border-success">Header ${ name }</div>  --}}
+                  <div class="card-body text-success">
+                    
+                    {{--  <h5 class="card-title">Success card title</h5>  --}}
+                    <p class="card-text">
+                      {{ csrfField() }}
+
+                      <div class="input-group mb-3">
+                          {{--  <span class="input-group-text" id="inputGroup-sizing-default">Title</span>  --}}
+                          <input placeholder="Type a question" type="text" name="content" v-model="questions[questionIndex].content.content"  class="form-control" required aria-label="Sizing example input titleHelpBlock" aria-describedby="inputGroup-sizing-default">
+                          <div id="titleHelpBlock" class="form-text"></div>
+                          <small>{{ flashMessages.get('errors.content') || '' }}</small>
+                      </div>
+                      {{--  question-options  --}}
+                      <div v-for="(option, optionIndex) in question.options" :key="questionIndex +''+ optionIndex"  class="input-group" style="padding-bottom: 5px;">
+                        <div class="input-group-text">
+                          <input class="form-check-input" type="radio" disabled value="" aria-label="Radio button for following text input">
+                        </div>
+                        <input required type="text" class="form-control" placeholder="Option" v-model="questions[questionIndex].options[optionIndex]" name="options[]" aria-label="question's option" aria-describedby="button-addon2">
+                        <button  class="btn btn-outline-danger" type="button" id="button-addon2">X</button>
+                      </div>
+                      <a v-on:click.prevent="addNewQuestionOption(questionIndex)" style="float: right" href="!#"> <i class="material-icons">add</i></a> 
+                      {{-- end-question-options  --}}
+                      
+                    </p>
+                  </div>
+                  <div class="card-footer bg-transparent border-success">
+                    <button type="submit" class="btn btn-primary btn-sm">update</button>
+                  {{--  <a class="" href="http://">view</a>   --}}
+                  <a v-on:click="deleteQuestionForm(questionIndex, $event)" style="float: right" href="questions/"> <i class="material-icons">delete</i></a> 
+                  {{--  <a href="#"> analytics</a>  --}}
+                  </div>
+                </div>
+              </form>
+            </span>
+                {{--  end questions-from-db  --}}
               {{--  end question template  --}}
+
             </div>
             <!-- card body text-dark ends -->
+
+            <div class="card-footer">
+              {{--  <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                v-on:click="addNewQuestionForm">
+                Add new question
+              </button>  --}}
+            </div>
+
           </div>
+          {{--  end question container  --}}
         
       </div>
       
@@ -84,53 +146,120 @@
 @endsection
 
 @section('extra-script')
+{{--  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  --}}
+<script src="{{ route('/') }}js-libraries/axios@0.20.0.js"></script>
+<script>
 
-  <script>
-
-    // this does not
 const app = Vue.createApp({
   delimiters: ['${', '}'],
   data () {
     return {
-      name: '',
+      name: 'Ezeh',
       questions: [
-        { content: '', options: ['option'] },
-        { content: '', options: ['option'] },
-      ]
+        /** structure
+         { content: '', options: [''] }*/
+      ],
+      newOptions: [''],
+      updateUrl = ''
 
     }
   },
 
   methods: {
+
     addNewQuestionForm() {
       this.questions.push({
         content: '',
         options: [
-          'option'
+          ''
         ]
       })
     },
 
     deleteQuestionForm(index, event) {
       event.preventDefault();
+      let url = 'http://localhost:3333/polls/2/questions/1/update';
+      const token = document.querySelector("input[name='_csrf']").value;
+      
+      axios.defaults.headers.post['x-csrf-token'] = token;
+      console.log(event)
+      const data = {
+
+      }
+      // axios.post(url)
+      //   .then(function (response) {
+      //     // handle success
+      //     console.log(response);
+      //   })
+      //   .catch(function (error) {
+      //     // handle error
+          
+      //   })
       this.questions.splice(index, 1);
       // later deleting the question in db will be done
     },
 
+    // Add options to existing questions from db
     addNewQuestionOption(questionIndex) {
-      this.questions[questionIndex].options.push('newOption')
+      this.questions[questionIndex].options.push('')
     },
 
+    // Delete options to existing questions from db
     deleteQuestionOption(questionIndex, optionIndex) {
       // bracket noation didnt work: this.questions[questionIndex][options]
       this.questions[questionIndex].options.splice(optionIndex, 1)
-    }
+    },
+
+     // Add options to new question form
+    addNewOption(optionIndex) {
+      this.newOptions.push('')
+    },
+
+    // Delete options to existing questions form
+    deleteOption(optionIndex) {
+      // bracket noation didnt work: this.questions[questionIndex][options]
+      this.newOptions.splice(optionIndex, 1)
+    },
+
+    getPollQuestions() {
+      let url = 'http://localhost:3333/polls/1/questions';
+      const token = document.querySelector("input[name='_csrf']").value;
+      
+      axios.defaults.headers.post['x-csrf-token'] = token;
+      
+
+      axios.get(url)
+        .then(function (response) {
+          // handle success
+          const _questions = response.data.questions;
+          const poll_id = response.data.poll_id;
+
+          _questions.forEach((question, index) => {
+            let content = question
+            let options = ['amaobi']
+            
+            this.questions.push({content, options})
+          })
+          // this.questions.push(_questions)
+          // console.log(this.questions)
+          console.log(this.questions)
+        }.bind(this))
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+
+      // this.questions.splice(index, 1);
+      // later deleting the question in db will be done
+    },
 
   },
 
   mounted() {
     // conthis.questions;
+    this.getPollQuestions();
   }
+  
 });
 
 app.mount('.container')
